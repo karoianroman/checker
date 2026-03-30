@@ -1,0 +1,43 @@
+name: 🚀 Deploy Health Checker
+
+'on':
+  push:
+    branches:
+      - main
+
+env:
+  PROJECT_ID: repo-490410
+  REGION: europe-west1
+  SERVICE_NAME: checker
+  REPOSITORY: checker
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy:
+    name: 🏗️ Build & Push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔐 Google Auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: 'projects/992838171690/locations/global/workloadIdentityPools/github-actions-pool/providers/react-smoke-test'
+          service_account: 'github-actions-sa@repo-490410.iam.gserviceaccount.com'
+
+      - name: ⚙️ Setup Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: 🐳 Docker Auth
+        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
+
+      - name: 📤 Build and Push Container
+        run: |
+          DOCKER_TAG="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME }}:latest"
+          docker build -t $DOCKER_TAG .
+          docker push $DOCKER_TAG
