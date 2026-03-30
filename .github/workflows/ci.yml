@@ -33,12 +33,12 @@ jobs:
       - name: ⚙️ Setup Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
 
-     - name: 🐳 Docker Auth
-  run: |
-    gcloud auth print-access-token | docker login \
-      -u oauth2accesstoken \
-      --password-stdin \
-      https://${{ env.REGION }}-docker.pkg.dev
+      - name: 🐳 Docker Auth
+        run: |
+          gcloud auth print-access-token | docker login \
+          -u oauth2accesstoken \
+          --password-stdin \
+          https://${{ env.REGION }}-docker.pkg.dev
 
       - name: 📤 Build and Push Container
         run: |
