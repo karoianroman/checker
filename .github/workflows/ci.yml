@@ -6,7 +6,7 @@ name: 🚀 Deploy Health Checker
       - main
 
 env:
-  PROJECT_ID: repo-490410
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   REGION: europe-west1
   SERVICE_NAME: checker
   REPOSITORY: checker
