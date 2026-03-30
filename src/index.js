@@ -1,13 +1,6 @@
-const URLS = (process.env.HEALTH_CHECK_URLS || '')
-  .split(',')
-  .map(u => u.trim())
-  .filter(Boolean)
+import { checkUrl, parseUrls } from './checker.js'
 
-async function checkUrl(url) {
-  const res = await fetch(url)
-  if (!res.ok) throw new Error(`${url} returned ${res.status}`)
-  console.log(`✅ ${url} — OK (${res.status})`)
-}
+const URLS = parseUrls(process.env.HEALTH_CHECK_URLS)
 
 async function main() {
   if (URLS.length === 0) {
