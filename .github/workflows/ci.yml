@@ -27,7 +27,7 @@ jobs:
       - name: 🔐 Google Auth
         uses: google-github-actions/auth@v2
         with:
-          workload_identity_provider: 'projects/992838171690/locations/global/workloadIdentityPools/github-actions-pool/providers/react-smoke-test'
+          workload_identity_provider: 'projects/992838171690/locations/global/workloadIdentityPools/github-actions-pool/providers/checker
           service_account: 'github-actions-sa@repo-490410.iam.gserviceaccount.com'
 
       - name: ⚙️ Setup Cloud SDK
