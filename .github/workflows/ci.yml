@@ -74,7 +74,7 @@ jobs:
               --image="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME }}:latest" \
               --region=${{ env.REGION }} \
               --set-env-vars=HEALTH_CHECK_URLS=${{ secrets.HEALTH_CHECK_URLS }} \
-              --memory=256Mi \
+              --memory=512Mi \
               --cpu=1
           fi
 
