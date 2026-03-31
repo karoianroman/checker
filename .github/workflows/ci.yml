@@ -60,6 +60,13 @@ jobs:
           docker build -t $DOCKER_TAG .
           docker push $DOCKER_TAG
 
+      - name: 🚀 Deploy Cloud Run Job
+        run: |
+          gcloud run jobs update ${{ env.SERVICE_NAME }} \
+            --image="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME }}:latest" \
+            --region=${{ env.REGION }}
+
+
       - name: 🔥 Run and verify job
         run: |
           gcloud run jobs execute ${{ env.SERVICE_NAME }} \
