@@ -68,16 +68,14 @@ jobs:
               --region=${{ env.REGION }} \
               --set-env-vars=HEALTH_CHECK_URLS=${{ secrets.HEALTH_CHECK_URLS }} \
               --memory=256Mi \
-              --cpu=500m \
-              --execution-environment=gen1
+              --cpu=1
           else
             gcloud run jobs create ${{ env.SERVICE_NAME }} \
               --image="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME }}:latest" \
               --region=${{ env.REGION }} \
               --set-env-vars=HEALTH_CHECK_URLS=${{ secrets.HEALTH_CHECK_URLS }} \
               --memory=256Mi \
-              --cpu=500m \
-              --execution-environment=gen1
+              --cpu=1
           fi
 
       - name: 🔥 Run and verify job
