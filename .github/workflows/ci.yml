@@ -68,7 +68,7 @@ jobs:
               --region=${{ env.REGION }} \
               --set-env-vars=HEALTH_CHECK_URLS=${{ secrets.HEALTH_CHECK_URLS }} \
               --memory=256Mi \
-              --cpu=0.5
+              --cpu=0.5 \
               --execution-environment=gen1
           else
             gcloud run jobs create ${{ env.SERVICE_NAME }} \
@@ -76,7 +76,7 @@ jobs:
               --region=${{ env.REGION }} \
               --set-env-vars=HEALTH_CHECK_URLS=${{ secrets.HEALTH_CHECK_URLS }} \
               --memory=256Mi \
-              --cpu=0.5
+              --cpu=0.5 \
               --execution-environment=gen1
           fi
 
