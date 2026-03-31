@@ -1,0 +1,22 @@
+apiVersion: run.googleapis.com/v1
+kind: Job
+metadata:
+  name: checker
+  annotations:
+    run.googleapis.com/launch-stage: BETA
+spec:
+  template:
+    metadata:
+      annotations:
+        run.googleapis.com/execution-environment: gen1
+    spec:
+      taskCount: 1
+      template:
+        spec:
+          containers:
+          - image: europe-west1-docker.pkg.dev/PROJECT_ID/checker/checker:latest
+            resources:
+              limits:
+                cpu: 500m
+                memory: 256Mi
+          maxRetries: 3
