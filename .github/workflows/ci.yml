@@ -62,10 +62,22 @@ jobs:
 
       - name: 🚀 Deploy Cloud Run Job
         run: |
-          sed -i 's|PROJECT_ID|${{ env.PROJECT_ID }}|g' job.yaml
-          gcloud run jobs replace job.yaml --region=${{ env.REGION }}
-
-
+          if gcloud run jobs describe ${{ env.SERVICE_NAME }} --region=${{ env.REGION }} 2>/dev/null; then
+            gcloud run jobs update ${{ env.SERVICE_NAME }} \
+              --image="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME }}:latest" \
+              --region=${{ env.REGION }} \
+              --set-env-vars=HEALTH_CHECK_URLS=${{ secrets.HEALTH_CHECK_URLS }} \
+              --memory=512Mi \
+              --cpu=1
+          else
+            gcloud run jobs create ${{ env.SERVICE_NAME }} \
+              --image="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME }}:latest" \
+              --region=${{ env.REGION }} \
+              --set-env-vars=HEALTH_CHECK_URLS=${{ secrets.HEALTH_CHECK_URLS }} \
+              --memory=512Mi \
+              --cpu=1
+          fi
+        
       - name: 🔥 Run and verify job
         run: |
           gcloud run jobs execute ${{ env.SERVICE_NAME }} \
