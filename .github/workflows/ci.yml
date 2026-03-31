@@ -59,3 +59,9 @@ jobs:
           DOCKER_TAG="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME }}:latest"
           docker build -t $DOCKER_TAG .
           docker push $DOCKER_TAG
+
+      - name: 🔥 Run and verify job
+        run: |
+          gcloud run jobs execute ${{ env.SERVICE_NAME }} \
+            --region=${{ env.REGION }} \
+            --wait
