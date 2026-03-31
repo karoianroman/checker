@@ -84,3 +84,19 @@ jobs:
           gcloud run jobs execute ${{ env.SERVICE_NAME }} \
             --region=${{ env.REGION }} \
             --wait
+
+      - name: ⏰ Setup Cloud Scheduler
+        run: |
+          if gcloud scheduler jobs describe checker-schedule --location=${{ env.REGION }} 2>/dev/null; then
+            gcloud scheduler jobs update http checker-schedule \
+              --schedule="*/5 * * * *" \
+              --location=${{ env.REGION }}
+          else
+            gcloud scheduler jobs create http checker-schedule \
+              --schedule="*/5 * * * *" \
+              --location=${{ env.REGION }} \
+              --uri="https://${{ env.REGION }}-run.googleapis.com/apis/run.googleapis.com/v1/namespaces/${{ env.PROJECT_ID }}/jobs/${{ env.SERVICE_NAME }}:run" \
+              --message-body="{}" \
+              --oauth-service-account-email=github-actions-sa@repo-490410.iam.gserviceaccount.com \
+              --time-zone="Europe/Kiev"
+          fi
