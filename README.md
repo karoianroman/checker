@@ -1,4 +1,4 @@
-# Infrastructure Checker Utility (Cloud Native)
+# Infrastructure Health Checker Utility (Cloud Native)
 
 A specialized monitoring utility built with **Node.js**, designed to perform infrastructure health checks and deployed as a serverless service on **Google Cloud Platform (GCP)**.
 
